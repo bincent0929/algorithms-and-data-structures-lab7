@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# ./runTests.sh <executable> <test_dir>
+# Output for each test goes into its own .report file
+
+passed=0
+failed=0
+
+for f in "$2"/*.in
+do
+  basefile=$(basename -- "$f")
+  testname="${basefile%.*}"  # e.g., test1
+  testfile="${testname}.test"
+  outfile="${2%/}/${testname}.out"
+  difffile="${2%/}/${testname}.diff"
+  reportfile="${2%/}/${testname}.report"  # new report file per test
+
+  ./"$1" < "$f" > "$testfile"
+
+  {
+    echo "Running test $f..."
+    if cmp -s "$testfile" "$outfile"; then
+      echo "Result: PASSED"
+      passed=$((passed+1))
+      rm -f "$difffile"
+    else
+      echo "Result: FAILED"
+      echo "------------------------"
+      echo "Your program's output:"
+      echo "------------------------"
+      cat "$testfile"
+      echo "------------------------"
+      echo "Expected output:"
+      echo "------------------------"
+      cat "$outfile"
+      echo "------------------------"
+      echo "Difference:"
+      echo "------------------------"
+      diff "$testfile" "$outfile" > "$difffile"
+      cat "$difffile"
+      echo "------------------------"
+      echo "See full diff in $difffile"
+      failed=$((failed+1))
+    fi
+  } > "$reportfile"
+
+  rm "$testfile"
+done
+
+echo "$passed PASSED out of $((passed + failed)) ($failed failed)"
