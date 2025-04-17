@@ -31,9 +31,25 @@ bool Graph::isNeighbor(int u, int v){
 }
 
 void Graph::DFS(){
+  for (int i = 0; i < nodes.size(); i++) {
+    nodes[i]->visited = false;
+    nodes[i]->predecessor = nullptr;
+    nodes[i]->discovered = -1;
+    nodes[i]->finished = -1;
+  }
+  int time = 0;
+  for (int i = 0; i < nodes.size(); i++) {
+    if (nodes[i]->visited == false) {
+      time = DFSVisit(nodes[i]->id, time);
+    }
+  }
 }
 
 int Graph::DFSVisit(int s, int time){
+  time += 1;
+  nodes[s]->discovered = time;
+  nodes[s]->visited = true;
+  
   return time;
 }
 
