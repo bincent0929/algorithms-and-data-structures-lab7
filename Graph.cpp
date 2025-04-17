@@ -49,7 +49,14 @@ int Graph::DFSVisit(int s, int time){
   time += 1;
   nodes[s]->discovered = time;
   nodes[s]->visited = true;
-  
+  for (int i; i < nodes[s]->neighbors.size(); i++) {
+    if (nodes[s]->neighbors[i]->visited == false) {
+      nodes[s]->neighbors[i]->predecessor = nodes[s];
+      time = DFSVisit(i, time);
+    }
+  }
+  time += 1;
+  nodes[s]->finished = time;
   return time;
 }
 
