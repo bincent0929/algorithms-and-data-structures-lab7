@@ -8,7 +8,6 @@
 //do not change the headers above
 //implement the functions below, but do not add new functions
 
-
 Graph::Graph(){
   nodes = {};
 }
@@ -23,6 +22,11 @@ void Graph::printAdjList(){
 }
 
 bool Graph::isNeighbor(int u, int v){
+  for (int i = 0; i < nodes[u]->neighbors.size(); i++) {
+    if (nodes[u]->neighbors[i]->id == v) {
+      return true;
+    }
+  }
   return false;
 }
 
