@@ -8,6 +8,8 @@
 //do not change the headers above
 //implement the functions below, but do not add new functions
 
+//using namespace std;
+
 Graph::Graph(){
   nodes = {};
 }
@@ -66,7 +68,22 @@ void Graph::BFS(int s){
     nodes[i]->visited = false;
     nodes[i]->predecessor = nullptr;
   }
-
+  nodes[s]->dist = 0;
+  nodes[s]->visited = true;
+  std::queue<std::shared_ptr<Node>> Q;
+  Q.push(nodes[s]);
+  while (Q.size() > 0) {
+    std::shared_ptr<Node> u = Q.front();
+    Q.pop();
+    for (int i = 0; i < u->neighbors.size(); i++) {
+      if (u->neighbors[i]->visited == false) {
+        u->neighbors[i]->dist = u->dist + 1;
+        u->neighbors[i]->visited = true;
+        u->neighbors[i]->predecessor = u;
+        Q.push(u->neighbors[i]);
+      }
+    }
+  }
 }
 
 std::vector<int> Graph::distancesFrom(int s){
