@@ -54,14 +54,14 @@ void Graph::DFS(){
 int Graph::DFSVisit(int s, int time){
   time += 1;
   std::shared_ptr<Node> sNode;
-  for (int i; i < nodes.size(); i++) {
+  for (int i = 0; i < nodes.size(); i++) {
     if (nodes[i]->id == s) {
       sNode = nodes[i];
     }
   }
   sNode->discovered = time;
   sNode->visited = true;
-  for (int i; i < sNode->neighbors.size(); i++) {
+  for (int i = 0; i < sNode->neighbors.size(); i++) {
     std::shared_ptr<Node> v = sNode->neighbors[i];
     if (v->visited == false) {
       v->predecessor = sNode;
