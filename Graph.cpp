@@ -18,8 +18,9 @@ void Graph::printAdjList(){
   for (int i = 0; i < nodes.size(); i++) {
     std::cout << nodes[i]->id << ": ";
     for (int j = 0; j < nodes[i]->neighbors.size(); j++) {
-      std::cout << nodes[i]->neighbors[j] << " ";
+      std::cout << nodes[i]->neighbors[j]->id << " ";
     }
+    std::cout << std::endl;
   }
 }
 
@@ -33,6 +34,7 @@ bool Graph::isNeighbor(int u, int v){
 }
 
 void Graph::DFS(){
+  // this is not returning the right values
   for (int i = 0; i < nodes.size(); i++) {
     nodes[i]->visited = false;
     nodes[i]->predecessor = nullptr;
@@ -63,6 +65,7 @@ int Graph::DFSVisit(int s, int time){
 }
 
 void Graph::BFS(int s){
+  // because of distanecesFrom not working, this is not working
   for (int i = 0; i < nodes.size(); i++) {
     nodes[i]->dist = INT_MAX; // INT_MAX is basically infinity
     nodes[i]->visited = false;

@@ -1,2 +1,2 @@
 Graph: Graph.cpp
-	g++ -std=c++11 -o Graph Node.cpp Graph.cpp GraphDriver.cpp
+	g++ -std=c++11 Node.cpp Graph.cpp GraphDriver.cpp -o Graph
