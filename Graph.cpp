@@ -34,7 +34,6 @@ bool Graph::isNeighbor(int u, int v){
 }
 
 void Graph::DFS(){
-  // this is not returning the right values
   for (int i = 0; i < nodes.size(); i++) {
     std::shared_ptr<Node> u = nodes[i];
     u->visited = false;
@@ -74,19 +73,19 @@ int Graph::DFSVisit(int s, int time){
 }
 
 void Graph::BFS(int s){
-  // because of distanecesFrom not working, this is not working
   std::shared_ptr<Node> sNode;
   for (int i = 0; i < nodes.size(); i++) {
+    std::shared_ptr<Node> u = nodes[i];
     if (nodes[i]->id == s) {
-      sNode = nodes[i];
+      sNode = u;
       sNode->dist = 0;
       sNode->visited = true;
       sNode->predecessor = nullptr;
     }
     else {
-      nodes[i]->dist = INT_MAX; // INT_MAX is basically infinity
-      nodes[i]->visited = false;
-      nodes[i]->predecessor = nullptr;
+      u->dist = INT_MAX; // INT_MAX is basically infinity
+      u->visited = false;
+      u->predecessor = nullptr;
     }
   }
   std::queue<std::shared_ptr<Node>> Q;
@@ -107,10 +106,11 @@ void Graph::BFS(int s){
 }
 
 std::vector<int> Graph::distancesFrom(int s){
-  std::vector<int> distances;
+  std::vector<int> distsToS;
   BFS(s);
-  for (int i = 0; i < nodes[s]->neighbors.size(); i++) {
-    distances.push_back(nodes[s]->neighbors[i]->dist);
+  for (int i = 0; i < nodes.size(); i++) {
+    std::shared_ptr<Node> u = nodes[i];
+    distsToS.push_back(u->dist);
   }
-  return distances;
+  return distsToS;
 }
