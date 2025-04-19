@@ -66,24 +66,32 @@ int Graph::DFSVisit(int s, int time){
 
 void Graph::BFS(int s){
   // because of distanecesFrom not working, this is not working
+  std::shared_ptr<Node> sNode;
   for (int i = 0; i < nodes.size(); i++) {
-    nodes[i]->dist = INT_MAX; // INT_MAX is basically infinity
-    nodes[i]->visited = false;
-    nodes[i]->predecessor = nullptr;
+    if (nodes[i]->id == s) {
+      sNode = nodes[i];
+      sNode->dist = 0;
+      sNode->visited = true;
+      sNode->predecessor = nullptr;
+    }
+    else {
+      nodes[i]->dist = INT_MAX; // INT_MAX is basically infinity
+      nodes[i]->visited = false;
+      nodes[i]->predecessor = nullptr;
+    }
   }
-  nodes[s]->dist = 0;
-  nodes[s]->visited = true;
   std::queue<std::shared_ptr<Node>> Q;
-  Q.push(nodes[s]);
+  Q.push(sNode);
   while (Q.size() > 0) {
     std::shared_ptr<Node> u = Q.front();
     Q.pop();
     for (int i = 0; i < u->neighbors.size(); i++) {
-      if (u->neighbors[i]->visited == false) {
-        u->neighbors[i]->dist = u->dist + 1;
-        u->neighbors[i]->visited = true;
-        u->neighbors[i]->predecessor = u;
-        Q.push(u->neighbors[i]);
+      std::shared_ptr<Node> v = u->neighbors[i];
+      if (v->visited == false) {
+        v->dist = u->dist + 1;
+        v->visited = true;
+        v->predecessor = u;
+        Q.push(v);
       }
     }
   }
