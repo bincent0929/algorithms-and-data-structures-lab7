@@ -36,31 +36,40 @@ bool Graph::isNeighbor(int u, int v){
 void Graph::DFS(){
   // this is not returning the right values
   for (int i = 0; i < nodes.size(); i++) {
-    nodes[i]->visited = false;
-    nodes[i]->predecessor = nullptr;
-    nodes[i]->discovered = -1;
-    nodes[i]->finished = -1;
+    std::shared_ptr<Node> u = nodes[i];
+    u->visited = false;
+    u->predecessor = nullptr;
+    u->discovered = -1;
+    u->finished = -1;
   }
   int time = 0;
   for (int i = 0; i < nodes.size(); i++) {
-    if (nodes[i]->visited == false) {
-      time = DFSVisit(nodes[i]->id, time);
+    std::shared_ptr<Node> u = nodes[i];
+    if (u->visited == false) {
+      time = DFSVisit(u->id, time);
     }
   }
 }
 
 int Graph::DFSVisit(int s, int time){
   time += 1;
-  nodes[s]->discovered = time;
-  nodes[s]->visited = true;
-  for (int i; i < nodes[s]->neighbors.size(); i++) {
-    if (nodes[s]->neighbors[i]->visited == false) {
-      nodes[s]->neighbors[i]->predecessor = nodes[s];
-      time = DFSVisit(i, time);
+  std::shared_ptr<Node> sNode;
+  for (int i; i < nodes.size(); i++) {
+    if (nodes[i]->id == s) {
+      sNode = nodes[i];
+    }
+  }
+  sNode->discovered = time;
+  sNode->visited = true;
+  for (int i; i < sNode->neighbors.size(); i++) {
+    std::shared_ptr<Node> v = sNode->neighbors[i];
+    if (v->visited == false) {
+      v->predecessor = sNode;
+      time = DFSVisit(v->id, time);
     }
   }
   time += 1;
-  nodes[s]->finished = time;
+  sNode->finished = time;
   return time;
 }
 
