@@ -87,4 +87,10 @@ void Graph::BFS(int s){
 }
 
 std::vector<int> Graph::distancesFrom(int s){
+  std::vector<int> distances;
+  BFS(s);
+  for (int i = 0; i < nodes[s]->neighbors.size(); i++) {
+    distances.push_back(nodes[s]->neighbors[i]->dist);
+  }
+  return distances;
 }
